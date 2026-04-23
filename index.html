@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Druxen — Unblocked Proxy</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #3b82f6;
+    --accent2: #1d4ed8;
+    --accent-glow: rgba(59,130,246,0.35);
+    --bg-deep: #050a14;
+    --bg-panel: rgba(8,16,35,0.92);
+    --bg-card: rgba(15,25,55,0.85);
+    --bg-hover: rgba(30,50,100,0.7);
+    --border: rgba(59,130,246,0.22);
+    --border-bright: rgba(59,130,246,0.55);
+    --text: #e2eaff;
+    --text-muted: #7090c0;
+    --text-dim: #3a5080;
+    --sidebar-w: 220px;
+    --star-color: #ffffff;
+  }
+  [data-theme="purple"] { --accent:#a855f7; --accent2:#7c3aed; --accent-glow:rgba(168,85,247,0.35); --border:rgba(168,85,247,0.22); --border-bright:rgba(168,85,247,0.55); --bg-deep:#0a0514; --bg-panel:rgba(18,8,35,0.92); --bg-card:rgba(25,12,55,0.85); --bg-hover:rgba(55,20,100,0.7); }
+  [data-theme="cyan"]   { --accent:#06b6d4; --accent2:#0891b2; --accent-glow:rgba(6,182,212,0.35); --border:rgba(6,182,212,0.22); --border-bright:rgba(6,182,212,0.55); --bg-deep:#020e14; --bg-panel:rgba(2,20,30,0.92); --bg-card:rgba(4,30,50,0.85); --bg-hover:rgba(8,60,90,0.7); }
+  [data-theme="green"]  { --accent:#22c55e; --accent2:#16a34a; --accent-glow:rgba(34,197,94,0.35); --border:rgba(34,197,94,0.22); --border-bright:rgba(34,197,94,0.55); --bg-deep:#020e06; --bg-panel:rgba(4,20,10,0.92); --bg-card:rgba(6,30,15,0.85); --bg-hover:rgba(10,60,25,0.7); }
+  [data-theme="red"]    { --accent:#ef4444; --accent2:#dc2626; --accent-glow:rgba(239,68,68,0.35); --border:rgba(239,68,68,0.22); --border-bright:rgba(239,68,68,0.55); --bg-deep:#140202; --bg-panel:rgba(30,5,5,0.92); --bg-card:rgba(45,8,8,0.85); --bg-hover:rgba(80,15,15,0.7); }
+  [data-theme="orange"] { --accent:#f97316; --accent2:#ea580c; --accent-glow:rgba(249,115,22,0.35); --border:rgba(249,115,22,0.22); --border-bright:rgba(249,115,22,0.55); --bg-deep:#120800; --bg-panel:rgba(28,12,2,0.92); --bg-card:rgba(40,18,4,0.85); --bg-hover:rgba(75,30,6,0.7); }
+  [data-theme="pink"]   { --accent:#ec4899; --accent2:#db2777; --accent-glow:rgba(236,72,153,0.35); --border:rgba(236,72,153,0.22); --border-bright:rgba(236,72,153,0.55); --bg-deep:#14020d; --bg-panel:rgba(30,4,20,0.92); --bg-card:rgba(45,6,30,0.85); --bg-hover:rgba(80,10,55,0.7); }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { height:100%; overflow:hidden; background:var(--bg-deep); color:var(--text); font-family:'Exo 2', sans-serif; }
+
+  #starfield { position:fixed; inset:0; z-index:0; pointer-events:none; }
+
+  .shell { display:flex; height:100vh; position:relative; z-index:1; }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: var(--sidebar-w); flex-shrink:0;
+    background: var(--bg-panel);
+    border-right: 1px solid var(--border);
+    display:flex; flex-direction:column;
+    backdrop-filter: blur(18px);
+    z-index:10;
+  }
+  .logo {
+    padding: 22px 20px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .logo-title {
+    font-family:'Orbitron',sans-serif;
+    font-size:17px; font-weight:800;
+    color: var(--accent);
+    letter-spacing:1px;
+    text-shadow: 0 0 20px var(--accent-glow);
+  }
+  .logo-sub { font-size:10px; color:var(--text-muted); letter-spacing:2px; text-transform:uppercase; margin-top:2px; }
+
+  /* PROXY SEARCH */
+  .proxy-hero {
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 32px;
+    position: relative;
+  }
+  .proxy-hero::before {
+    content:'';
+    position:absolute; inset:0;
+    background: radial-gradient(circle at 50% 40%, var(--accent-glow) 0%, transparent 60%);
+    pointer-events:none;
+  }
+  .proxy-logo {
+    font-family:'Orbitron',sans-serif;
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-shadow: 0 0 40px var(--accent-glow);
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+  }
+  .proxy-tagline {
+    font-size: 15px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+  }
+  .proxy-search-box {
+    width: 100%;
+    max-width: 680px;
+    position: relative;
+    z-index: 1;
+  }
+  .proxy-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--bg-card);
+    border: 2px solid var(--border-bright);
+    border-radius: 16px;
+    padding: 6px 6px 6px 20px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+  }
+  .proxy-input-wrap:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-glow), 0 8px 32px rgba(0,0,0,0.3);
+  }
+  .proxy-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: 'Exo 2', sans-serif;
+    font-size: 15px;
+    padding: 12px 14px;
+  }
+  .proxy-input::placeholder { color: var(--text-dim); }
+  .proxy-go-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 32px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 0 20px var(--accent-glow);
+    letter-spacing: 1px;
+  }
+  .proxy-go-btn:hover {
+    filter: brightness(1.2);
+    transform: scale(1.05);
+  }
+  .proxy-go-btn:active {
+    transform: scale(0.98);
+  }
+  .quick-links {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+    position: relative;
+    z-index: 1;
+  }
+  .quick-link {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.18s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .quick-link:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-bright);
+    color: var(--accent);
+  }
+  .proxy-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 50px;
+    position: relative;
+    z-index: 1;
+  }
+  .proxy-feat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  .proxy-feat-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+  .proxy-feat-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .proxy-feat-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .nav { flex:1; padding:14px 0; }
+  .nav-item {
+    display:flex; align-items:center; gap:11px;
+    padding:11px 20px; cursor:pointer;
+    color:var(--text-muted); font-size:14px; font-weight:500;
+    border-left:3px solid transparent;
+    transition: all 0.18s;
+    user-select:none;
+  }
+  .nav-item:hover { color:var(--text); background:var(--bg-hover); }
+  .nav-item.active { color:var(--accent); border-left-color:var(--accent); background:var(--bg-hover); }
+  .nav-icon { width:18px; height:18px; flex-shrink:0; }
+  .nav-badge { margin-left:auto; background:var(--accent); color:#000; font-size:10px; font-weight:700; padding:1px 7px; border-radius:20px; }
+
+  .sidebar-footer { padding:14px 20px; border-top:1px solid var(--border); font-size:11px; color:var(--text-dim); }
+
+  /* ── MAIN ── */
+  .main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+
+  .topbar {
+    height:54px; flex-shrink:0;
+    background:var(--bg-panel);
+    border-bottom:1px solid var(--border);
+    display:flex; align-items:center; gap:14px;
+    padding:0 22px;
+    backdrop-filter:blur(18px);
+  }
+  .topbar-title { font-family:'Orbitron',sans-serif; font-size:13px; font-weight:600; color:var(--accent); letter-spacing:1px; }
+  .search-wrap { flex:1; max-width:340px; position:relative; }
+  .search-wrap input {
+    width:100%; background:rgba(255,255,255,0.05); border:1px solid var(--border);
+    border-radius:8px; padding:7px 14px 7px 36px; color:var(--text); font-size:13px;
+    font-family:'Exo 2',sans-serif; outline:none; transition:border-color 0.2s;
+  }
+  .search-wrap input:focus { border-color:var(--border-bright); }
+  .search-wrap input::placeholder { color:var(--text-dim); }
+  .search-icon { position:absolute; left:11px; top:50%; transform:translateY(-50%); color:var(--text-dim); pointer-events:none; }
+  .topbar-right { margin-left:auto; display:flex; gap:10px; align-items:center; }
+  .pill { background:var(--bg-card); border:1px solid var(--border); border-radius:20px; padding:4px 13px; font-size:12px; color:var(--text-muted); }
+
+  .content { flex:1; overflow-y:auto; padding:24px; scroll-behavior:smooth; }
+  .content::-webkit-scrollbar { width:5px; }
+  .content::-webkit-scrollbar-track { background:transparent; }
+  .content::-webkit-scrollbar-thumb { background:var(--border); border-radius:8px; }
+
+  /* ── SECTIONS ── */
+  .page { display:none; }
+  .page.active { display:block; }
+
+  /* ── HOME HERO ── */
+  .hero {
+    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(5,15,40,0.5) 100%);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:36px 32px;
+    margin-bottom:28px;
+    position:relative; overflow:hidden;
+  }
+  .hero::before {
+    content:'';
+    position:absolute; right:-60px; top:-60px;
+    width:260px; height:260px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .hero-tag { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
+  .hero-h { font-family:'Orbitron',sans-serif; font-size:26px; font-weight:800; line-height:1.2; margin-bottom:10px; }
+  .hero-h span { color:var(--accent); }
+  .hero-p { font-size:14px; color:var(--text-muted); max-width:460px; line-height:1.6; margin-bottom:20px; }
+  .btn { display:inline-flex; align-items:center; gap:7px; padding:9px 20px; border-radius:8px; font-family:'Exo 2',sans-serif; font-size:13px; font-weight:600; cursor:pointer; border:none; transition:all 0.18s; }
+  .btn-primary { background:var(--accent); color:#fff; box-shadow:0 0 22px var(--accent-glow); }
+  .btn-primary:hover { filter:brightness(1.15); transform:translateY(-1px); }
+  .btn-ghost { background:transparent; border:1px solid var(--border-bright); color:var(--accent); }
+  .btn-ghost:hover { background:var(--bg-hover); }
+
+  /* SECTION HEADER */
+  .sec-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+  .sec-title { font-family:'Orbitron',sans-serif; font-size:13px; font-weight:600; color:var(--text); letter-spacing:1px; }
+  .sec-link { font-size:12px; color:var(--accent); cursor:pointer; }
+  .sec-link:hover { text-decoration:underline; }
+
+  /* GAME GRID */
+  .game-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap:14px; margin-bottom:28px; }
+  .game-card {
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    overflow:hidden;
+    cursor:pointer;
+    transition: all 0.22s;
+    position:relative;
+  }
+  .game-card:hover { border-color:var(--border-bright); transform:translateY(-3px); box-shadow:0 8px 30px var(--accent-glow); }
+  .game-thumb {
+    width:100%; height:105px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:42px;
+    position:relative; overflow:hidden;
+  }
+  .game-thumb-bg { position:absolute; inset:0; opacity:0.18; }
+  .game-thumb-icon { position:relative; z-index:1; }
+  .game-info { padding:10px 12px 12px; }
+  .game-name { font-size:13px; font-weight:600; color:var(--text); margin-bottom:3px; }
+  .game-cat { font-size:11px; color:var(--text-muted); }
+  .game-badge {
+    position:absolute; top:8px; right:8px;
+    background:var(--accent); color:#000;
+    font-size:9px; font-weight:700;
+    padding:2px 7px; border-radius:20px;
+    letter-spacing:0.5px;
+  }
+  .game-plays { font-size:10px; color:var(--text-dim); margin-top:4px; }
+
+  /* FEATURED ROW */
+  .featured-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; margin-bottom:28px; }
+  .feat-card {
+    background:var(--bg-card); border:1px solid var(--border); border-radius:14px;
+    display:flex; align-items:center; gap:14px; padding:14px;
+    cursor:pointer; transition:all 0.2s;
+  }
+  .feat-card:hover { border-color:var(--border-bright); background:var(--bg-hover); }
+  .feat-icon { width:52px; height:52px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:26px; flex-shrink:0; }
+  .feat-info .feat-name { font-size:14px; font-weight:600; color:var(--text); }
+  .feat-info .feat-desc { font-size:12px; color:var(--text-muted); margin-top:2px; line-height:1.4; }
+
+  /* IFRAME MODAL */
+  .modal-overlay {
+    display:none; position:fixed; inset:0; z-index:999;
+    background:rgba(2,6,18,0.92); backdrop-filter:blur(6px);
+    flex-direction:column;
+  }
+  .modal-overlay.open { display:flex; }
+  .modal-bar {
+    height:50px; flex-shrink:0;
+    background:var(--bg-panel);
+    border-bottom:1px solid var(--border);
+    display:flex; align-items:center; gap:12px; padding:0 18px;
+  }
+  .modal-title { font-family:'Orbitron',sans-serif; font-size:13px; font-weight:600; color:var(--accent); flex:1; }
+  .modal-close {
+    width:30px; height:30px; border-radius:6px;
+    background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3);
+    color:#ef4444; cursor:pointer; font-size:16px;
+    display:flex; align-items:center; justify-content:center;
+    transition:background 0.15s;
+  }
+  .modal-close:hover { background:rgba(239,68,68,0.3); }
+  .modal-frame-wrap { flex:1; position:relative; }
+  .modal-frame-wrap iframe { width:100%; height:100%; border:none; }
+  .modal-fallback {
+    display:none; width:100%; height:100%;
+    align-items:center; justify-content:center; flex-direction:column; gap:16px;
+  }
+  .modal-fallback.show { display:flex; }
+
+  /* APPS GRID */
+  .apps-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:14px; }
+  .app-card {
+    background:var(--bg-card); border:1px solid var(--border); border-radius:14px;
+    padding:20px 18px; cursor:pointer; transition:all 0.2s;
+  }
+  .app-card:hover { border-color:var(--border-bright); transform:translateY(-2px); box-shadow:0 6px 24px var(--accent-glow); }
+  .app-icon { font-size:32px; margin-bottom:12px; }
+  .app-name { font-size:14px; font-weight:600; color:var(--text); margin-bottom:5px; }
+  .app-desc { font-size:12px; color:var(--text-muted); line-height:1.5; }
+  .app-open { margin-top:14px; display:inline-block; font-size:12px; color:var(--accent); font-weight:600; }
+
+  /* SETTINGS */
+  .settings-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  @media(max-width:700px){ .settings-grid{ grid-template-columns:1fr; } }
+  .settings-card {
+    background:var(--bg-card); border:1px solid var(--border); border-radius:14px;
+    padding:22px;
+  }
+  .settings-card-title { font-family:'Orbitron',sans-serif; font-size:12px; font-weight:600; color:var(--accent); letter-spacing:1px; margin-bottom:18px; }
+  .setting-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:15px; }
+  .setting-label { font-size:13px; color:var(--text); }
+  .setting-sub { font-size:11px; color:var(--text-muted); margin-top:2px; }
+  .toggle {
+    width:40px; height:22px; border-radius:20px;
+    background:rgba(255,255,255,0.1); border:1px solid var(--border);
+    cursor:pointer; position:relative; transition:background 0.2s;
+    flex-shrink:0;
+  }
+  .toggle.on { background:var(--accent); border-color:var(--accent); }
+  .toggle::after {
+    content:''; position:absolute; top:2px; left:2px;
+    width:16px; height:16px; border-radius:50%; background:#fff;
+    transition:left 0.2s;
+  }
+  .toggle.on::after { left:20px; }
+
+  /* THEME SWATCHES */
+  .theme-swatches { display:flex; flex-wrap:wrap; gap:10px; margin-top:8px; }
+  .swatch {
+    width:36px; height:36px; border-radius:50%; cursor:pointer;
+    border:3px solid transparent; transition:all 0.18s;
+    position:relative;
+  }
+  .swatch.active::after {
+    content:'✓'; position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-size:14px; font-weight:700;
+  }
+  .swatch:hover { transform:scale(1.12); }
+  .swatch.active { border-color:#fff; box-shadow:0 0 14px var(--accent-glow); }
+
+  /* STAR DENSITY SLIDER */
+  .range-wrap { display:flex; gap:12px; align-items:center; }
+  .range-wrap input[type=range] { flex:1; accent-color:var(--accent); }
+  .range-val { font-size:12px; color:var(--accent); min-width:28px; text-align:right; }
+
+  /* CATEGORY TABS */
+  .cat-tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
+  .cat-tab {
+    padding:6px 16px; border-radius:20px; font-size:12px; font-weight:600;
+    border:1px solid var(--border); color:var(--text-muted); cursor:pointer;
+    transition:all 0.18s; background:transparent;
+  }
+  .cat-tab.active, .cat-tab:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
+
+  /* SCROLL ANIMATION */
+  .fade-in { animation:fadeup 0.35s ease both; }
+  @keyframes fadeup { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+  .glow-text { text-shadow:0 0 22px var(--accent-glow); }
+  .divider { height:1px; background:var(--border); margin:20px 0; }
+
+  /* CURSOR GLOW EFFECT */
+  #cursor-glow {
+    position: fixed;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 999;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s;
+    opacity: 0;
+  }
+  body:hover #cursor-glow { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div id="cursor-glow"></div>
+
+<canvas id="starfield"></canvas>
+
+<div class="shell">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-title">&#x1F310; Druxen</div>
+      <div class="logo-sub">Unblocked · Secure · Fast</div>
+    </div>
+    <nav class="nav">
+      <div class="nav-item active" data-page="home">
+        <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+        Proxy
+      </div>
+      <div class="nav-item" data-page="games">
+        <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="3"/><path d="M6 12h4m-2-2v4M15 11h.01M18 13h.01"/></svg>
+        Games
+        <span class="nav-badge">50+</span>
+      </div>
+      <div class="nav-item" data-page="apps">
+        <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Apps
+      </div>
+      <div class="nav-item" data-page="settings">
+        <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        Settings
+      </div>
+    </nav>
+    <div class="sidebar-footer">v2.1.0 &nbsp;·&nbsp; All rights reserved</div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title">PROXY</div>
+      <div class="search-wrap">
+        <svg class="search-icon" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="searchInput" placeholder="Search games, apps..." oninput="handleSearch(this.value)">
+      </div>
+      <div class="topbar-right">
+        <span class="pill">&#x1F7E2; Online</span>
+      </div>
+    </div>
+
+    <div class="content" id="mainContent">
+
+      <!-- HOME PAGE -->
+      <div class="page active" id="page-home">
+        <div class="proxy-hero fade-in">
+          <div class="proxy-logo">&#x1F310; DRUXEN</div>
+          <div class="proxy-tagline">Surf freely. Unblock everything.</div>
+          
+          <div class="proxy-search-box">
+            <form class="proxy-input-wrap" onsubmit="proxyGo(event)">
+              <input 
+                type="text" 
+                class="proxy-input" 
+                id="proxyInput"
+                placeholder="Enter any URL or search query..."
+                autocomplete="off"
+              >
+              <button type="submit" class="proxy-go-btn">GO</button>
+            </form>
+            
+            <div class="quick-links">
+              <div class="quick-link" onclick="quickNav('https://www.tiktok.com')">
+                <span>&#x1F3B5;</span> TikTok
+              </div>
+              <div class="quick-link" onclick="quickNav('https://twitter.com')">
+                <span>&#x1F426;</span> Twitter
+              </div>
+              <div class="quick-link" onclick="quickNav('https://www.youtube.com')">
+                <span>&#x25B6;&#xFE0F;</span> YouTube
+              </div>
+              <div class="quick-link" onclick="quickNav('https://www.instagram.com')">
+                <span>&#x1F4F7;</span> Instagram
+              </div>
+              <div class="quick-link" onclick="quickNav('https://discord.com')">
+                <span>&#x1F4AC;</span> Discord
+              </div>
+              <div class="quick-link" onclick="quickNav('https://www.reddit.com')">
+                <span>&#x1F4E1;</span> Reddit
+              </div>
+            </div>
+          </div>
+
+          <div class="proxy-features">
+            <div class="proxy-feat-card">
+              <div class="proxy-feat-icon">&#x1F512;</div>
+              <div class="proxy-feat-title">Secure Browsing</div>
+              <div class="proxy-feat-desc">Your traffic is encrypted and anonymized</div>
+            </div>
+            <div class="proxy-feat-card">
+              <div class="proxy-feat-icon">&#x26A1;</div>
+              <div class="proxy-feat-title">Lightning Fast</div>
+              <div class="proxy-feat-desc">Optimized servers for maximum speed</div>
+            </div>
+            <div class="proxy-feat-card">
+              <div class="proxy-feat-icon">&#x1F6E1;</div>
+              <div class="proxy-feat-title">No Tracking</div>
+              <div class="proxy-feat-desc">We don't log your browsing activity</div>
+            </div>
+            <div class="proxy-feat-card">
+              <div class="proxy-feat-icon">&#x1F310;</div>
+              <div class="proxy-feat-title">Access Anything</div>
+              <div class="proxy-feat-desc">Bypass filters and restrictions instantly</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sec-head" style="margin-top:40px;">
+          <div class="sec-title">&#x1F3AE; FEATURED GAMES</div>
+          <span class="sec-link" onclick="switchPage('games')">View all →</span>
+        </div>
+        <div class="game-grid fade-in" id="homeTopGames"></div>
+      </div>
+
+      <!-- GAMES PAGE -->
+      <div class="page" id="page-games">
+        <div class="cat-tabs" id="catTabs"></div>
+        <div class="sec-head">
+          <div class="sec-title" id="games-heading">ALL GAMES</div>
+          <span style="font-size:12px;color:var(--text-muted)" id="games-count"></span>
+        </div>
+        <div class="game-grid" id="allGamesGrid"></div>
+      </div>
+
+      <!-- APPS PAGE -->
+      <div class="page" id="page-apps">
+        <div class="hero" style="padding:24px 28px;margin-bottom:22px;">
+          <div class="hero-tag">&#x1F4E6; Productivity & Tools</div>
+          <div class="hero-h" style="font-size:20px;">Essential <span>Apps</span></div>
+          <div class="hero-p" style="margin-bottom:0">Useful web apps available without restrictions.</div>
+        </div>
+        <div class="apps-grid" id="appsGrid"></div>
+      </div>
+
+      <!-- SETTINGS PAGE -->
+      <div class="page" id="page-settings">
+        <div class="settings-grid">
+          <div class="settings-card fade-in">
+            <div class="settings-card-title">&#x1F3A8; THEME COLOR</div>
+            <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;">Choose your accent color for the entire interface.</p>
+            <div class="theme-swatches">
+              <div class="swatch active" data-theme="blue" style="background:#3b82f6" title="Blue" onclick="setTheme('blue',this)"></div>
+              <div class="swatch" data-theme="purple" style="background:#a855f7" title="Purple" onclick="setTheme('purple',this)"></div>
+              <div class="swatch" data-theme="cyan" style="background:#06b6d4" title="Cyan" onclick="setTheme('cyan',this)"></div>
+              <div class="swatch" data-theme="green" style="background:#22c55e" title="Green" onclick="setTheme('green',this)"></div>
+              <div class="swatch" data-theme="red" style="background:#ef4444" title="Red" onclick="setTheme('red',this)"></div>
+              <div class="swatch" data-theme="orange" style="background:#f97316" title="Orange" onclick="setTheme('orange',this)"></div>
+              <div class="swatch" data-theme="pink" style="background:#ec4899" title="Pink" onclick="setTheme('pink',this)"></div>
+            </div>
+          </div>
+
+          <div class="settings-card fade-in">
+            <div class="settings-card-title">&#x2728; STARFIELD</div>
+            <div class="setting-row" style="flex-direction:column;align-items:flex-start;gap:8px;">
+              <div class="setting-label">Star Density</div>
+              <div class="range-wrap" style="width:100%">
+                <input type="range" min="50" max="400" value="200" id="starDensity" oninput="updateStars(this.value)">
+                <span class="range-val" id="starVal">200</span>
+              </div>
+            </div>
+            <div class="setting-row" style="flex-direction:column;align-items:flex-start;gap:8px;margin-top:8px;">
+              <div class="setting-label">Star Speed</div>
+              <div class="range-wrap" style="width:100%">
+                <input type="range" min="1" max="10" value="3" id="starSpeed" oninput="updateSpeed(this.value)">
+                <span class="range-val" id="speedVal">3</span>
+              </div>
+            </div>
+            <div class="setting-row" style="margin-top:8px;">
+              <div><div class="setting-label">Shooting Stars</div><div class="setting-sub">Occasional streak effect</div></div>
+              <div class="toggle on" id="shootToggle" onclick="this.classList.toggle('on')"></div>
+            </div>
+          </div>
+
+          <div class="settings-card fade-in">
+            <div class="settings-card-title">&#x2699;&#xFE0F; PREFERENCES</div>
+            <div class="setting-row">
+              <div><div class="setting-label">Compact Mode</div><div class="setting-sub">Smaller game cards</div></div>
+              <div class="toggle" id="compactToggle" onclick="toggleCompact(this)"></div>
+            </div>
+            <div class="setting-row">
+              <div><div class="setting-label">Animations</div><div class="setting-sub">Card hover effects</div></div>
+              <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+            </div>
+            <div class="setting-row">
+              <div><div class="setting-label">Show Play Counts</div><div class="setting-sub">Display popularity stats</div></div>
+              <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+            </div>
+          </div>
+
+          <div class="settings-card fade-in">
+            <div class="settings-card-title">&#x2139;&#xFE0F; ABOUT</div>
+            <div style="font-size:13px;color:var(--text-muted);line-height:1.8;">
+              <p><span style="color:var(--accent);font-weight:600;">Druxen</span> v2.1.0</p>
+              <p style="margin-top:8px;">A free, unblocked proxy service with games and apps.</p>
+              <div class="divider"></div>
+              <p>&#x1F30D; Access any website without restrictions.</p>
+              <p style="margin-top:6px;">&#x1F512; No data collection. No login required.</p>
+              <p style="margin-top:6px;">&#x26A1; Fast, secure, and always online.</p>
+              <div class="divider"></div>
+              <p style="font-size:11px;color:var(--text-dim);">
+                <strong style="color:var(--accent);">Note:</strong> This is a frontend demo. Some sites block iframe embedding and will show a "Open External" option. For a fully functional proxy, backend infrastructure is required (like Ultraviolet or similar proxy backends).
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- GAME MODAL -->
+<div class="modal-overlay" id="gameModal">
+  <div class="modal-bar">
+    <button class="modal-close" onclick="closeModal()">&#x2715;</button>
+    <div class="modal-title" id="modalTitle">Loading...</div>
+    <button class="btn btn-ghost" style="font-size:12px;padding:5px 13px;" id="modalExternal">&#x1F517; Open Full</button>
+  </div>
+  <div class="modal-frame-wrap">
+    <iframe id="gameFrame" sandbox="allow-scripts allow-same-origin allow-popups allow-forms" loading="lazy"></iframe>
+    <div class="modal-fallback" id="modalFallback">
+      <div style="font-size:60px">&#x1F3AE;</div>
+      <div style="font-family:'Orbitron',sans-serif;font-size:16px;color:var(--accent)" id="fallbackTitle"></div>
+      <div style="font-size:13px;color:var(--text-muted);text-align:center;max-width:340px;">This game can't be embedded directly, but you can play it in a new tab.</div>
+      <button class="btn btn-primary" id="fallbackBtn" onclick="openExternal()">&#x1F680; Play Now</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════
+const GAMES = [
+  { id:1, name:"2048", cat:"Puzzle", emoji:"&#x1F7E6;", bg:"#1e3a5f", url:"https://play2048.co/", plays:"2.1M", hot:true, embeddable:true },
+  { id:2, name:"Run 3", cat:"Runner", emoji:"&#x1F3C3;", bg:"#1a3a1a", url:"https://www.coolmathgames.com/0-run-3", plays:"5.4M", hot:true, embeddable:false },
+  { id:3, name:"Slope", cat:"Action", emoji:"&#x26BD;", bg:"#1f2e3f", url:"https://slope.game/", plays:"8.2M", hot:true, embeddable:false, badge:"#1" },
+  { id:4, name:"Snake", cat:"Classic", emoji:"&#x1F40D;", bg:"#1a2e1a", url:"https://www.google.com/fbx?fbx=snake_arcade", plays:"3.6M", embeddable:false },
+  { id:5, name:"Cookie Clicker", cat:"Idle", emoji:"&#x1F36A;", bg:"#3d1a0a", url:"https://orteil.dashnet.org/cookieclicker/", plays:"9.1M", hot:true, embeddable:true },
+  { id:6, name:"Agar.io", cat:"Multiplayer", emoji:"&#x1F7E2;", bg:"#0d2b0d", url:"https://agar.io/", plays:"12M", embeddable:false, badge:"HOT" },
+  { id:7, name:"Flappy Bird", cat:"Arcade", emoji:"&#x1F426;", bg:"#1a2e3d", url:"https://flappybird.io/", plays:"4.7M", embeddable:true },
+  { id:8, name:"Minecraft Classic", cat:"Sandbox", emoji:"&#x26B0;", bg:"#1a1a0a", url:"https://classic.minecraft.net/", plays:"11M", embeddable:true, badge:"FREE" },
+  { id:9, name:"Wordle", cat:"Word", emoji:"&#x1F4DD;", bg:"#1f1f1f", url:"https://www.nytimes.com/games/wordle/index.html", plays:"6.3M", embeddable:false },
+  { id:10, name:"Tetris", cat:"Classic", emoji:"&#x1F9E9;", bg:"#0d0d2b", url:"https://tetris.com/play-tetris", plays:"7.8M", embeddable:false },
+  { id:11, name:"Chess", cat:"Strategy", emoji:"&#x265F;", bg:"#1a1a1a", url:"https://www.chess.com/play/online", plays:"3.2M", embeddable:false },
+  { id:12, name:"Pac-Man", cat:"Classic", emoji:"&#x1F7E1;", bg:"#2b2b00", url:"https://www.google.com/logos/2010/pacman10-i.html", plays:"5.9M", embeddable:true },
+  { id:13, name:"Geometry Dash", cat:"Rhythm", emoji:"&#x1F4A0;", bg:"#1f0a2e", url:"https://geometrydash.io/", plays:"4.4M", embeddable:false },
+  { id:14, name:"Tank Trouble", cat:"Multiplayer", emoji:"&#x1F4A5;", bg:"#2e1a0a", url:"https://tanktrouble.com/", plays:"2.8M", embeddable:true },
+  { id:15, name:"Bloons Tower Defense", cat:"Strategy", emoji:"&#x1F388;", bg:"#0d1f2e", url:"https://www.ninjakiwi.com/Games/Tower-Defense/Bloons-Tower-Defense-5.html", plays:"3.1M", embeddable:false },
+  { id:16, name:"Minesweeper", cat:"Puzzle", emoji:"&#x1F4A3;", bg:"#1a1a1a", url:"https://minesweeper.online/", plays:"2.2M", embeddable:true },
+  { id:17, name:"Crossy Road", cat:"Arcade", emoji:"&#x1F414;", bg:"#0a2e1a", url:"https://www.crossyroad.com/play", plays:"5.1M", embeddable:false },
+  { id:18, name:"Drift Hunters", cat:"Racing", emoji:"&#x1F3CE;", bg:"#2e0a0a", url:"https://www.drift-hunters.net/", plays:"3.5M", embeddable:true },
+  { id:19, name:"Fireboy & Watergirl", cat:"Co-op", emoji:"&#x1F525;", bg:"#2e1a00", url:"https://www.fireboywatergirlgame.com/", plays:"4.0M", embeddable:false },
+  { id:20, name:"Happy Wheels", cat:"Physics", emoji:"&#x1F6B2;", bg:"#1a0000", url:"https://www.totaljerkface.com/happy_wheels.tjf", plays:"6.7M", embeddable:false },
+  { id:21, name:"Shell Shockers", cat:"Shooter", emoji:"&#x1F95A;", bg:"#0a1a0a", url:"https://shellshock.io/", plays:"7.2M", embeddable:true, badge:"NEW" },
+  { id:22, name:"Krunker.io", cat:"Shooter", emoji:"&#x1F52B;", bg:"#1f1f0d", url:"https://krunker.io/", plays:"8.9M", embeddable:true },
+  { id:23, name:"Paper.io", cat:"Territory", emoji:"&#x1F4F0;", bg:"#0d1a2e", url:"https://paper-io.com/", plays:"5.5M", embeddable:false },
+  { id:24, name:"Sudoku", cat:"Puzzle", emoji:"&#x0039;&#xFE0F;", bg:"#1a1a2e", url:"https://sudoku.com/", plays:"1.9M", embeddable:true },
+  { id:25, name:"Tower of Hell", cat:"Obby", emoji:"&#x1F3D4;", bg:"#1f0d2e", url:"https://www.roblox.com/games/1962086868/Tower-of-Hell", plays:"4.3M", embeddable:false },
+  { id:26, name:"Catan Online", cat:"Board", emoji:"&#x1F6F3;", bg:"#0d2e1a", url:"https://colonist.io/", plays:"1.1M", embeddable:true },
+  { id:27, name:"Powerline.io", cat:"Action", emoji:"&#x26A1;", bg:"#00001a", url:"https://powerline.io/", plays:"2.6M", embeddable:true },
+  { id:28, name:"Monkey Mart", cat:"Idle", emoji:"&#x1F412;", bg:"#2e1a00", url:"https://monkey-mart.io/", plays:"3.8M", embeddable:true },
+];
+
+const APPS = [
+  { name:"Scratch", icon:"&#x1F4BB;", desc:"Create and share interactive stories, games, and animations.", url:"https://scratch.mit.edu/", color:"#1e3a5f" },
+  { name:"Google Docs", icon:"&#x1F4C4;", desc:"Create and collaborate on documents online for free.", url:"https://docs.google.com/", color:"#1a3a1a" },
+  { name:"Desmos Calculator", icon:"&#x1F4CA;", desc:"Powerful graphing calculator right in your browser.", url:"https://www.desmos.com/", color:"#1f2e1a" },
+  { name:"Kahoot!", icon:"&#x2753;", desc:"Fun learning games and quizzes for every subject.", url:"https://kahoot.it/", color:"#2e1a0a" },
+  { name:"Duolingo", icon:"&#x1F989;", desc:"Learn a language for free with the world's most popular app.", url:"https://www.duolingo.com/", color:"#0d2e0d" },
+  { name:"YouTube", icon:"&#x25B6;&#xFE0F;", desc:"Watch videos, music, and more — unblocked.", url:"https://www.youtube.com/", color:"#2e0a0a" },
+  { name:"Spotify", icon:"&#x1F3B5;", desc:"Listen to music and podcasts anytime.", url:"https://open.spotify.com/", color:"#0a2e0a" },
+  { name:"Khan Academy", icon:"&#x1F393;", desc:"Free world-class education in math, science, and more.", url:"https://www.khanacademy.org/", color:"#1a1a2e" },
+  { name:"Draw.io", icon:"&#x1F4C8;", desc:"Create diagrams, flowcharts and mind maps in your browser.", url:"https://app.diagrams.net/", color:"#2e1a1a" },
+  { name:"Canva", icon:"&#x1F3A8;", desc:"Design stunning graphics, presentations and more.", url:"https://www.canva.com/", color:"#1f0a2e" },
+  { name:"Replit", icon:"&#x1F40D;", desc:"Write, run, and share code directly in your browser.", url:"https://replit.com/", color:"#0d1f2e" },
+  { name:"Google Translate", icon:"&#x1F310;", desc:"Instantly translate text between 100+ languages.", url:"https://translate.google.com/", color:"#1a2e2e" },
+];
+
+const CATEGORIES = ["All", "Action", "Puzzle", "Classic", "Multiplayer", "Racing", "Strategy", "Idle", "Shooter", "Arcade", "Runner", "Word"];
+
+// ═══════════════════════════════════════
+// STARFIELD
+// ═══════════════════════════════════════
+const canvas = document.getElementById('starfield');
+const ctx = canvas.getContext('2d');
+let stars = [], meteors = [], numStars = 200, speed = 0.3;
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  initStars();
+}
+
+function initStars() {
+  stars = [];
+  for (let i = 0; i < numStars; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.8 + 0.2,
+      opacity: Math.random() * 0.8 + 0.2,
+      twinkle: Math.random() * 0.02 + 0.005,
+      dir: Math.random() > 0.5 ? 1 : -1,
+      drift: (Math.random() - 0.5) * 0.08
+    });
+  }
+}
+
+function spawnMeteor() {
+  if (!document.getElementById('shootToggle').classList.contains('on')) return;
+  meteors.push({
+    x: Math.random() * canvas.width,
+    y: -20,
+    vx: 3 + Math.random() * 4,
+    vy: 3 + Math.random() * 4,
+    len: 80 + Math.random() * 120,
+    opacity: 1
+  });
+}
+
+function drawFrame() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  stars.forEach(s => {
+    s.opacity += s.twinkle * s.dir;
+    if (s.opacity > 1 || s.opacity < 0.1) s.dir *= -1;
+    s.x += s.drift;
+    if (s.x < 0) s.x = canvas.width;
+    if (s.x > canvas.width) s.x = 0;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(180,210,255,${s.opacity})`;
+    ctx.fill();
+  });
+
+  meteors.forEach((m, i) => {
+    ctx.beginPath();
+    ctx.moveTo(m.x, m.y);
+    ctx.lineTo(m.x - m.vx * (m.len / 7), m.y - m.vy * (m.len / 7));
+    ctx.strokeStyle = `rgba(180,220,255,${m.opacity})`;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    m.x += m.vx * speed;
+    m.y += m.vy * speed;
+    m.opacity -= 0.012;
+    if (m.opacity <= 0 || m.x > canvas.width + 100 || m.y > canvas.height + 100) {
+      meteors.splice(i, 1);
+    }
+  });
+
+  requestAnimationFrame(drawFrame);
+}
+
+setInterval(spawnMeteor, 3500);
+resize();
+window.addEventListener('resize', resize);
+drawFrame();
+
+function updateStars(val) {
+  numStars = parseInt(val);
+  document.getElementById('starVal').textContent = val;
+  initStars();
+}
+function updateSpeed(val) {
+  speed = parseInt(val) * 0.1;
+  document.getElementById('speedVal').textContent = val;
+}
+
+// ═══════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════
+function switchPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelector(`[data-page="${name}"]`).classList.add('active');
+  const titleMap = { home: 'PROXY', games: 'GAMES', apps: 'APPS', settings: 'SETTINGS' };
+  document.getElementById('topbar-title').textContent = titleMap[name] || name.toUpperCase();
+  document.getElementById('mainContent').scrollTop = 0;
+}
+
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => switchPage(item.dataset.page));
+});
+
+// ═══════════════════════════════════════
+// RENDER GAMES
+// ═══════════════════════════════════════
+function gameCard(g, small) {
+  return `<div class="game-card" onclick="openGame(${g.id})">
+    ${g.badge ? `<div class="game-badge">${g.badge}</div>` : ''}
+    <div class="game-thumb" style="background:${g.bg};">
+      <div class="game-thumb-bg" style="background:radial-gradient(circle,rgba(255,255,255,0.08),transparent 70%)"></div>
+      <div class="game-thumb-icon" style="font-size:${small?36:44}px">${g.emoji}</div>
+    </div>
+    <div class="game-info">
+      <div class="game-name">${g.name}</div>
+      <div class="game-cat">${g.cat}</div>
+      <div class="game-plays">&#x1F440; ${g.plays} plays</div>
+    </div>
+  </div>`;
+}
+
+function featCard(g) {
+  return `<div class="feat-card" onclick="openGame(${g.id})">
+    <div class="feat-icon" style="background:${g.bg}">${g.emoji}</div>
+    <div class="feat-info">
+      <div class="feat-name">${g.name}</div>
+      <div class="feat-desc">${g.cat} &nbsp;·&nbsp; ${g.plays} plays</div>
+    </div>
+  </div>`;
+}
+
+// Home page
+document.getElementById('homeTopGames').innerHTML = GAMES.slice(0,8).map(g => gameCard(g, false)).join('');
+
+// Games page — categories
+const tabs = document.getElementById('catTabs');
+CATEGORIES.forEach(cat => {
+  const t = document.createElement('div');
+  t.className = 'cat-tab' + (cat === 'All' ? ' active' : '');
+  t.textContent = cat;
+  t.onclick = () => filterGames(cat, t);
+  tabs.appendChild(t);
+});
+
+function filterGames(cat, el) {
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const filtered = cat === 'All' ? GAMES : GAMES.filter(g => g.cat === cat);
+  document.getElementById('games-heading').textContent = cat === 'All' ? 'ALL GAMES' : cat.toUpperCase();
+  document.getElementById('games-count').textContent = filtered.length + ' games';
+  document.getElementById('allGamesGrid').innerHTML = filtered.map(g => gameCard(g, false)).join('');
+}
+filterGames('All', tabs.children[0]);
+
+// Apps page
+document.getElementById('appsGrid').innerHTML = APPS.map(a => `
+  <div class="app-card" onclick="window.open('${a.url}','_blank')">
+    <div class="app-icon" style="background:${a.color};width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:12px;">${a.icon}</div>
+    <div class="app-name">${a.name}</div>
+    <div class="app-desc">${a.desc}</div>
+    <span class="app-open">Open →</span>
+  </div>`).join('');
+
+// ═══════════════════════════════════════
+// SEARCH
+// ═══════════════════════════════════════
+function handleSearch(val) {
+  if (!val.trim()) return;
+  switchPage('games');
+  const q = val.toLowerCase();
+  const res = GAMES.filter(g => g.name.toLowerCase().includes(q) || g.cat.toLowerCase().includes(q));
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('games-heading').textContent = 'SEARCH RESULTS';
+  document.getElementById('games-count').textContent = res.length + ' found';
+  document.getElementById('allGamesGrid').innerHTML = res.length
+    ? res.map(g => gameCard(g, false)).join('')
+    : '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted)">No games found for "'+val+'"</div>';
+}
+
+// ═══════════════════════════════════════
+// GAME MODAL
+// ═══════════════════════════════════════
+let currentGame = null;
+
+function openGame(id) {
+  currentGame = GAMES.find(g => g.id === id);
+  if (!currentGame) return;
+  const modal = document.getElementById('gameModal');
+  const frame = document.getElementById('gameFrame');
+  const fallback = document.getElementById('modalFallback');
+  document.getElementById('modalTitle').textContent = '&#x1F3AE; ' + currentGame.name;
+  document.getElementById('modalExternal').onclick = openExternal;
+  document.getElementById('fallbackTitle').textContent = currentGame.name;
+  document.getElementById('fallbackBtn').textContent = '&#x1F680; Play ' + currentGame.name;
+
+  modal.classList.add('open');
+
+  if (currentGame.embeddable) {
+    frame.style.display = 'block';
+    fallback.classList.remove('show');
+    frame.src = currentGame.url;
+
+    frame.onerror = () => {
+      frame.style.display = 'none';
+      fallback.classList.add('show');
+    };
+  } else {
+    frame.style.display = 'none';
+    frame.src = '';
+    fallback.classList.add('show');
+  }
+}
+
+function closeModal() {
+  document.getElementById('gameModal').classList.remove('open');
+  document.getElementById('gameFrame').src = '';
+}
+
+function openExternal() {
+  if (currentGame) window.open(currentGame.url, '_blank');
+}
+
+// close on overlay click
+document.getElementById('gameModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ═══════════════════════════════════════
+// THEME
+// ═══════════════════════════════════════
+function setTheme(name, el) {
+  document.body.removeAttribute('data-theme');
+  if (name !== 'blue') document.body.setAttribute('data-theme', name);
+  document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ═══════════════════════════════════════
+// PROXY FUNCTIONS
+// ═══════════════════════════════════════
+function proxyGo(event) {
+  event.preventDefault();
+  const input = document.getElementById('proxyInput').value.trim();
+  if (!input) return;
+  
+  let url = input;
+  
+  // Check if it's a URL or search query
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    // Check if it looks like a domain (has a dot and no spaces)
+    if (url.includes('.') && !url.includes(' ')) {
+      url = 'https://' + url;
+    } else {
+      // It's a search query, use Google
+      url = 'https://www.google.com/search?q=' + encodeURIComponent(url);
+    }
+  }
+  
+  // Open in proxy modal
+  openProxyUrl(url);
+}
+
+function quickNav(url) {
+  document.getElementById('proxyInput').value = url;
+  openProxyUrl(url);
+}
+
+function openProxyUrl(url) {
+  const modal = document.getElementById('gameModal');
+  const frame = document.getElementById('gameFrame');
+  const fallback = document.getElementById('modalFallback');
+  
+  document.getElementById('modalTitle').textContent = '🌐 ' + extractDomain(url);
+  document.getElementById('modalExternal').onclick = () => window.open(url, '_blank');
+  document.getElementById('fallbackTitle').textContent = 'Opening ' + extractDomain(url);
+  document.getElementById('fallbackBtn').textContent = '🚀 Open ' + extractDomain(url);
+  currentGame = { url: url, name: extractDomain(url) };
+  
+  modal.classList.add('open');
+  frame.style.display = 'block';
+  fallback.classList.remove('show');
+  
+  // Use Ultraviolet to encode the URL
+  try {
+    // Wait for UV to be loaded
+    if (typeof __uv$config !== 'undefined') {
+      const uvUrl = __uv$config.prefix + __uv$config.encodeUrl(url);
+      frame.src = uvUrl;
+      console.log('🔐 Loading through Ultraviolet:', uvUrl);
+    } else {
+      // Fallback: UV not loaded, try direct (will likely fail)
+      console.warn('⚠️ Ultraviolet not loaded, using direct URL');
+      frame.src = url;
+    }
+  } catch (error) {
+    console.error('❌ Ultraviolet encoding error:', error);
+    // Fallback to direct URL
+    frame.src = url;
+  }
+  
+  // Fallback if iframe is blocked
+  frame.onerror = () => {
+    frame.style.display = 'none';
+    fallback.classList.add('show');
+  };
+}
+
+function extractDomain(url) {
+  try {
+    const u = new URL(url);
+    return u.hostname.replace('www.', '');
+  } catch {
+    return url;
+  }
+}
+
+// ═══════════════════════════════════════
+// COMPACT MODE
+// ═══════════════════════════════════════
+function toggleCompact(el) {
+  el.classList.toggle('on');
+  const compact = el.classList.contains('on');
+  document.querySelectorAll('.game-grid').forEach(g => {
+    g.style.gridTemplateColumns = compact
+      ? 'repeat(auto-fill, minmax(120px, 1fr))'
+      : 'repeat(auto-fill, minmax(160px, 1fr))';
+  });
+}
+
+// ═══════════════════════════════════════
+// CURSOR GLOW EFFECT
+// ═══════════════════════════════════════
+const cursorGlow = document.getElementById('cursor-glow');
+document.addEventListener('mousemove', (e) => {
+  cursorGlow.style.left = e.clientX + 'px';
+  cursorGlow.style.top = e.clientY + 'px';
+});
+
+// ═══════════════════════════════════════
+// ULTRAVIOLET SERVICE WORKER REGISTRATION
+// ═══════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/uv/uv.sw.js', {
+      scope: '/service/'
+    }).then(registration => {
+      console.log('✅ Ultraviolet Service Worker registered:', registration.scope);
+    }).catch(error => {
+      console.error('❌ Service Worker registration failed:', error);
+    });
+  });
+}
+</script>
+
+<!-- Ultraviolet Bundle -->
+<script src="/uv/uv.bundle.js"></script>
+<script src="/uv/uv.config.js"></script>
+
+</body>
+</html>
