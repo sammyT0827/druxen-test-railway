@@ -1,0 +1,22 @@
+{
+  "name": "druxen-proxy",
+  "version": "2.1.0",
+  "description": "Druxen - Web Proxy Service",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "postinstall": "bash setup.sh || node setup.js",
+    "setup": "bash setup.sh || node setup.js"
+  },
+  "keywords": ["web", "proxy", "unblocked"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "@tomphttp/bare-server-node": "^2.0.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
